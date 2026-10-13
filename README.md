@@ -5,9 +5,10 @@ PC Health is a local web dashboard for a Linux workstation that runs several AI 
 It is for people who leave agents working in tmux and want one page, on the PC or on a phone, that says who
 is working, who is waiting for them, and what was left running.
 
-[![Watch the two-minute tour](docs/demo-preview.webp)](docs/demo.mp4)
+[![Watch the two-minute tour](docs/demo-preview.webp)](docs/demo.mp4?raw=true)
 
-A tour of the dashboard, the agent view, the terminals and the phone layout (MP4, with captions). The numbers are
+A tour of the dashboard, the agent view, the terminals and the phone layout. The picture is a short preview: click
+it for the full video with captions (MP4, 9 MB; GitHub hands it over as a download). The numbers are
 live. My own sessions appear under made-up names. The two terminals are real Claude Code sessions, started for the
 recording in copies of this repository and of another public one.
 
