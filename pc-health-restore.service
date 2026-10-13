@@ -1,0 +1,16 @@
+# Brings the saved terminals back when you log in to the PC, if you switched that on (Settings on the PC Health
+# page). install-terminal.sh fills in @DIR@. It is always installed and does nothing without the marker file,
+# which the switch makes and removes. It waits for the desktop, so the terminals it starts can open windows.
+
+[Unit]
+Description=PC Health: bring the saved terminals back at login
+After=graphical-session.target
+ConditionPathExists=%h/.local/state/pc-health/restore-at-login
+
+[Service]
+Type=oneshot
+# "-": having nothing to start (all of them are running, or nothing is saved) is not a failure.
+ExecStart=-@DIR@/terminal/attach.sh --restore
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,31 @@
+# PC-health: read-only monitor for this PC and its coding agents.
+# install.sh copies this to ~/.config/systemd/user/ with @DIR@ filled in.
+
+[Unit]
+Description=PC Health monitor (read-only dashboard)
+Documentation=file://@DIR@/README.md
+
+[Service]
+Type=notify
+WorkingDirectory=@DIR@
+ExecStart=/usr/bin/python3 -E -s -m pchealth serve
+Environment=MALLOC_ARENA_MAX=2
+# The program pings systemd every 30 s; if its sampler ever hangs, systemd restarts it.
+WatchdogSec=90
+Restart=on-failure
+RestartSec=10
+# Exit code 75 = "I was using too much CPU and stopped myself". Do not restart into the same problem.
+RestartPreventExitStatus=75
+# Ceilings for the whole service group. The monitor itself needs about 17 MB; the rest is headroom for
+# its short-lived helpers (nvidia-smi, the folder-sizing worker and the file cache that worker touches).
+# Never swapped, so it stays responsive when the PC is not.
+MemoryHigh=128M
+MemoryMax=256M
+MemorySwapMax=0
+NoNewPrivileges=yes
+UMask=0077
+# Deliberately absent: Nice= (a monitor must stay punctual under load) and CPUQuota= (it would change
+# how CPU is shared between your other apps). The program limits its own CPU instead.
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,23 @@
+# The typeable terminal for tmux sessions (ttyd). It listens on a private socket in your login
+# session's runtime folder, not on the network: the only way to reach it is through PC Health,
+# which decides which devices may. install-terminal.sh fills in @DIR@ and @SOCKET@.
+
+[Unit]
+Description=PC Health terminal (tmux sessions in the browser)
+
+[Service]
+ExecStartPre=/bin/rm -f @SOCKET@
+# -i  listen on this socket       -b  PC Health forwards requests under /tty
+# -W  clients may type            -a  what to do comes from the address (?arg=...); attach.sh checks every word
+# -O  refuse connections started by other websites      -m  at most 8 open terminals
+ExecStart=/usr/bin/ttyd -i @SOCKET@ -b /tty -W -a -O -m 8 \
+    -t disableLeaveAlert=true -t disableResizeOverlay=true -t titleFixed=Terminal \
+    -t 'theme={"background":"#16161a"}' \
+    @DIR@/terminal/attach.sh
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=yes
+UMask=0077
+
+[Install]
+WantedBy=default.target

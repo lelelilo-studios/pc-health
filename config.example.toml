@@ -1,0 +1,63 @@
+# PC-health settings. Copy to ~/.config/pc-health/config.toml and change what you need,
+# then run:  systemctl --user restart pc-health
+# Everything here is optional; the values shown are the defaults.
+
+port = 7780
+
+# "lan"   = this PC plus phones/laptops on your home network
+# "local" = this PC only
+listen = "lan"
+
+# A code other devices must type once before they may use terminals. This PC never needs it.
+# Empty = no code: any device allowed by the settings below gets straight in.
+# Letters and digits only: the code is compared as the browser sends it, undecoded, so & % + # or a space never match.
+access_code = ""
+
+# What the code protects on other devices:
+# "terminals" = only terminals (the dashboard itself stays open)    "page" = everything
+protect = "terminals"
+
+# tmux sessions:  "local" = this PC only   "lan" = other devices on your home network too   "off" = nowhere
+terminal_view = "local"      # viewing a session: its screen and its earlier conversation (read-only)
+terminal_type = "local"      # typing in a session, and starting, renaming or closing one (needs ./install-terminal.sh)
+# With "lan" and no access_code, anyone on your home network can type commands as you.
+
+# Keep the saved terminals (Settings on the page) in step with the open ones by itself: a new terminal is added,
+# a conversation that changes is followed, a terminal you close is taken off. false = only when you press Save.
+terminal_autosave = true
+
+# Where the terminal service listens. Empty = a private socket in your login session's runtime folder.
+terminal_socket = ""
+
+# Folders whose sub-folders are projects. Build folders inside them (target, node_modules,
+# Unreal Intermediate/Saved/DerivedDataCache) are sized and shown under "Biggest folders".
+project_dirs = ["~/Projects", "~/emdash/worktrees"]
+
+# Extra folders to size.
+watch_extra = []
+
+# Program names that should never be listed under "Left behind by agents".
+ignore_leftovers = []
+
+# [warning, critical]. A 0 switches that level off.
+[thresholds]
+main_disk_free_gb = [30, 12]      # free space on the main disk falls below
+other_disk_free_pct = [5, 2]      # free space on other drives falls below (percent)
+disk_eta_hours = [48, 8]          # main disk projected full within
+disk_drop_gb_10min = [5, 15]      # main disk lost this much in 10 minutes
+crash_dumps_gb = [2, 20]          # crash dumps on the main disk
+mem_available_gb = [3, 1.5]       # memory still available falls below
+mem_pressure_pct = [15, 35]       # programs stalling for memory (Ubuntu steps in at 50)
+swap_used_pct = [50, 80]
+ram_files_gb = [4, 10]            # files in /tmp and /dev/shm, which live in memory
+cpu_wait_pct = [25, 50]           # programs waiting for the processor
+vram_used_pct = [90, 97]          # graphics memory
+gpu_oom_15min = [1, 20]           # graphics out-of-memory errors in 15 minutes
+cpu_temp_c = [85, 92]
+gpu_temp_c = [83, 88]
+ssd_temp_c = [70, 80]
+coolant_temp_c = [45, 55]
+leftover_cores = [0, 1.0]         # a leftover using this many cores becomes critical
+leftover_mem_gb = [0, 4]
+leftover_vram_gb = [0, 2]
+idle_agent_cores = [1.0, 0]       # an idle agent whose programs still use this many cores

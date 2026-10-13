@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#16161a">
+<title>Terminal · PC Health</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/app.css">
+<script src="/nav.js" defer></script>
+<script src="/terminal.js" defer></script>
+</head>
+<!-- One page, two addresses. /terminal opens a tmux session you can type in; /watch shows a copy of
+     its screen and can never send anything. terminal.js reads the address and shows the right parts. -->
+<body class="tp">
+<!-- One bar: the way back, every terminal as a tab (the one on screen is the raised one and says its state; a tab
+     switches terminal, in the same mode), the two ways of opening it, text size. On a phone the tabs take a row of
+     their own under the rest. -->
+<header class="tp-bar">
+  <a class="btn tp-back" href="/" aria-label="Back to PC Health" title="Back to PC Health">&#8249;<span class="tp-wide">&nbsp;PC Health</span></a>
+  <nav class="tp-tabs" aria-label="Terminals"><div id="tp-tabs" class="tabs-list"></div></nav>
+  <nav class="tp-modes" aria-label="How this session is opened">
+    <a id="tp-mode-view" class="tp-mode" title="View only: watch without typing"><svg class="tp-mode-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span class="sr">View only</span></a>
+    <a id="tp-mode-type" class="tp-mode" title="Type: open the session itself"><svg class="tp-mode-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span class="sr">Type</span></a>
+  </nav>
+  <button type="button" class="btn" id="tp-smaller" aria-label="Smaller text">A&minus;</button>
+  <button type="button" class="btn" id="tp-bigger" aria-label="Larger text">A+</button>
+  <button type="button" class="btn" id="tp-keys-toggle" aria-pressed="false" hidden>Keys</button>
+</header>
+<p id="tp-viewnote" class="tp-viewnote" hidden><svg class="tp-mode-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span>View only. You are watching a copy of this screen; nothing you press is sent to it.</span></p>
+<div id="tp-msg" class="tp-msg" hidden></div>
+<form id="tp-code" class="tp-code" method="get" action="/login" hidden>
+  <label for="tp-code-input">Access code</label>
+  <input id="tp-code-input" name="code" type="password" autocomplete="current-password">
+  <button class="btn">Unlock</button>
+</form>
+<iframe id="tp-frame" class="tp-frame" title="Terminal" hidden></iframe>
+<div id="tp-view" class="tp-view" tabindex="0" hidden>
+  <div id="tp-log" class="tp-log" hidden>
+    <button type="button" id="tp-earlier" class="tp-earlier">Earlier in this conversation</button>
+    <p id="tp-log-note" class="tp-log-note" hidden></p>
+    <div id="tp-turns" class="tp-turns"></div>
+  </div>
+  <div class="tp-live"><span id="tp-live-label">Live screen</span></div>
+  <pre id="tp-screen" class="screen" aria-label="Terminal screen, view only"></pre>
+</div>
+<div id="tp-keys" class="tp-keys" role="toolbar" aria-label="Keys that phone keyboards lack" hidden>
+  <button type="button" data-key="esc">Esc</button>
+  <button type="button" data-key="shift-tab" aria-label="Shift Tab">&#8679;Tab</button>
+  <button type="button" data-key="tab">Tab</button>
+  <button type="button" data-key="up" aria-label="Up">&#8593;</button>
+  <button type="button" data-key="down" aria-label="Down">&#8595;</button>
+  <button type="button" data-key="left" aria-label="Left">&#8592;</button>
+  <button type="button" data-key="right" aria-label="Right">&#8594;</button>
+  <button type="button" data-key="enter" aria-label="Enter">&#9166;</button>
+  <button type="button" data-key="ctrl-c" aria-label="Control C">Ctrl+C</button>
+  <button type="button" data-key="ctrl-o" aria-label="Control O">Ctrl+O</button>
+  <button type="button" data-key="ctrl-b" aria-label="tmux prefix, Control B">Ctrl+B</button>
+</div>
+<noscript><p class="tp-msg">The terminal needs JavaScript.</p></noscript>
+</body>
+</html>
